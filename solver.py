@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
 from solver.utils import *
+from solver.streetmap import *
 
-# f = open('testfile')
-# print f.read()
+streetmap = StreetMap(open('testfile').read())
 
-print open('testfile').read().split('\n')
+print streetmap
+
 
 # split by intersection, so that graph directions can be mapped to cardinal directions
 # will need to implement A* (incl. dijkstra)
