@@ -1,12 +1,15 @@
 #!/usr/bin/python
 
-from solver.utils import *
-from solver.streetmap import *
+from solver.routines import *
 
-streetmap = StreetMap(open('testfile').read())
+score_solution('testfile','testsolution')
 
-print streetmap
 
+
+# self.drivers = []
+
+# for driver_cood in data_arr[0].split(';'):
+#   self.drivers.append(Driver(driver_cood))
 
 # split by intersection, so that graph directions can be mapped to cardinal directions
 # will need to implement A* (incl. dijkstra)

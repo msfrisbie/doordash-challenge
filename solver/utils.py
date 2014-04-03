@@ -1,4 +1,3 @@
-
 def cd_val(str,index):
   """
   break apart a comma delimited string and return the 
