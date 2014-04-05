@@ -1,15 +1,16 @@
 #!/usr/bin/python
 
 from solver.routines import *
+import sys
 
-score_solution('testfile','testsolution')
+try:
+  datafilename = sys.argv[1]
+  solutionfilename = sys.argv[2]
+except:
+  datafilename = 'testfile'
+  solutionfilename = 'testsolution'
 
-
-
-# self.drivers = []
-
-# for driver_cood in data_arr[0].split(';'):
-#   self.drivers.append(Driver(driver_cood))
+score_solution(datafilename,solutionfilename)
 
 # split by intersection, so that graph directions can be mapped to cardinal directions
 # will need to implement A* (incl. dijkstra)

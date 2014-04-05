@@ -1,5 +1,7 @@
 from utils import *
 from driver import *
+from restaurant import *
+from customer import *
 from itertools import chain
 
 class StreetMap:
@@ -12,21 +14,22 @@ class StreetMap:
   # pickup of an order. or perhaps just visit the tile?
 
   tiles = []
-  restaurants = []
-  customers = []
+  restaurants = {}
+  customers = {}
 
   def __init__(self, mapdata):
-    data_arr = mapdata.split('\n')
 
-    self.width = cd_val(data_arr[1],0)
-    self.height = cd_val(data_arr[1],1)
+    self.width = cd_val(mapdata[1],0)
+    self.height = cd_val(mapdata[1],1)
 
-    # self.drivers = []
+    self.tiles = list(chain(*map(lambda x: list(x),mapdata[2:])))
 
-    # for driver_cood in data_arr[0].split(';'):
-    #   self.drivers.append(Driver(driver_cood))
+    for index,tile in enumerate(self.tiles):
+      if tile.islower():
+        self.restaurants[tile] = Restaurant(self.i2c(index))
+      elif tile.isupper():
+        self.customers[tile] = Customer(self.i2c(index))
 
-    self.tiles = list(chain(*map(lambda x: list(x),data_arr[3:])))
 
   def __str__(self):
     return unicode(self)
@@ -50,11 +53,17 @@ class StreetMap:
       raise Exception('invalid coordinates: '+unicode(x)+','+unicode(y))
     return self.tiles[y*self.width+x]
 
-  # def drive_path(driver_index,path_str):
-  #   driver_score = 0
-  #   driver = self.drivers[driver_index]
-  #   for dir in list(path_str):
+  # index to x,y coordinate
+  def i2c(self,index):
+    if index<0 or index>=self.width*self.height:
+      raise Exception("Tile index out of bounds")
+    return [index%self.width,index/self.width]
 
-  #     driver.move(dir)
-
-  # def tangent_restaurants
+  def completed(self):
+    for index,key in enumerate(self.restaurants):
+      if self.restaurants[key].picked_up == False:
+        return False
+    for index,key in enumerate(self.customers):
+      if self.customers[key].delivered == False:
+        return False
+    return True
